@@ -2,6 +2,7 @@ var express = require("express"),
     io = require("socket.io");
 
 var app = express.createServer();
+var io = io.listen(app);
 
 console.log("Created");
 
@@ -15,8 +16,6 @@ var port = process.env.PORT || 8000;
 console.log("port:" + port);
 
 app.listen(port);
-
-//var io = io.listen(app);
 
 app.setAppFile = (function () {
    app.get('/', function (req, res) {
@@ -41,7 +40,7 @@ app.setAppFile = (function () {
       res.sendfile(__dirname + '/WWW/jquery-1.7.1.min.js');
    });
 })();
-/*
+
 io.sockets.on('connection', function (socket) {
    socket.on('msg', function (msg) {
       if (msg)
@@ -53,9 +52,7 @@ io.sockets.on('connection', function (socket) {
 });
 
 io.set('transports', [                     // enable all transports (optional if you want flashsocket)
-    'websocket'
-  , 'flashsocket'
-  , 'htmlfile'
-  , 'xhr-polling'
-  , 'jsonp-polling'
-]);*/
+   'xhr-polling'
+]);
+
+io.set("polling duration", 10);
