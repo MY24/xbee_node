@@ -4,7 +4,7 @@ var express = require("express"),
 var app = express.createServer()
   , io = io.listen(app);
 
-console.log("Created" + TT + ":" PORT);
+console.log("Created");
 
 //http://www.laptop.lan:8000/
 //http://stackoverflow.com/questions/6692908/formatting-messages-to-send-to-socket-io-node-js-server-from-python-client
