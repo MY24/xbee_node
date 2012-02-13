@@ -1,0 +1,62 @@
+<html>
+<head>
+   <title>Interface</title>
+   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+   <script type="text/javascript" src="event.js"></script>
+   <script src="h5utils.js"></script>   
+   <link href="interface.css" media="all" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+
+<h1>It works!</h1>
+
+<p id="Result"></p>
+<p>The web server software is running but no content has been added, yet.</p>
+
+<div id="lstCapteurs" class="lstCapteurs">
+
+</div>
+
+<div id="lstDevices" class="lstDevices">
+   <div id="textLstDevices" class="textLstDevices">
+      
+   </div>
+   <div id="devices">
+      <div id="device_1" draggable='true' class="device">ID: 1</div>
+   </div>
+</div>
+
+<div id="control" class="control">
+   <div id="listActiveDevice">
+      <div id="device_null" class="device_null">ID: 1</div>
+   </div>
+</div>
+
+<div id="alertBox" class="alertBox">
+
+   <div id="textAlertBox" class="textAlertBox">
+      	
+   </div>
+
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $.ajax({
+      url: "http://localhost:8080/getInformation",
+      dataType: "json",
+      success: function(msg) {
+        $("#Result").text(JSON.stringify(msg));
+        event(msg);
+      }
+    });
+    addEvents();
+});
+</script>
+
+<input id="hiddenTX" type="hidden" value='{"Capteur1":0,"Capteur2":0,"Capteur3":0,"EndNodes":[6,9]}'/>
+
+</body>
+</html>

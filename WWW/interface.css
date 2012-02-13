@@ -1,0 +1,135 @@
+/*
+*     AlertBox : Indicate new device
+*/
+.alertBox {
+  background-color: #1a82f7;
+  border: 1px solid black;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 7em;
+  width: 20em;
+  box-shadow: 5px 5px 5px #888888;
+  opacity: 0;
+  -moz-transition-property: opacity;
+  -moz-transition-duration: 1s;
+  margin: 33% 0 0 76%;
+  position: absolute;
+  z-index: 100; }
+
+.textAlertBox {
+  margin-top: 10%; }
+
+/*
+*   Interface
+*/
+.panelHeader {
+  background-color: black;
+  background: -moz-radial-gradient(ellipse closest-corner, #675555 0%, #2f2727 50%);
+  height: 8%;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit; }
+
+.panelHeaderContainer {
+  text-align: center;
+  line-height: 2.5em; }
+
+.alertBoxPanelHeader {
+  height: 25%; }
+
+.alertBoxPanelHeaderContainer {
+  text-align: center;
+  line-height: 1.5em; }
+
+.lstCapteurs {
+  background-color: #1a82f7;
+  height: 30em;
+  width: 25%;
+  border: 0.1em solid #bfbfbf;
+  margin-left: 5%;
+  box-shadow: 0em 0em 0.5em 0.5em #888888;
+  float: left; }
+
+.lstCapteurs_body {
+  height: 80%; }
+
+.control {
+  background-color: #1a82f7;
+  height: 30em;
+  width: 35%;
+  border: 0.1em solid #bfbfbf;
+  margin: 0 2.5% 0 0;
+  box-shadow: 0em 0em 0.5em 0.5em #888888;
+  float: right; }
+
+.lstDevices {
+  background-color: #1a82f7;
+  height: 30em;
+  width: 25%;
+  border: 0.1em solid #bfbfbf;
+  margin-right: 5%;
+  box-shadow: 0em 0em 0.5em 0.5em #888888;
+  float: right; }
+
+.device, .device_null {
+  background-color: #0651a5;
+  height: 5%;
+  width: 70%;
+  margin: 10px auto;
+  text-align: center;
+  vertical-align: middle;
+  color: #bfbfbf;
+  border: 2px outset white;
+  box-shadow: 2px 2px 5px #BFBFBF;
+  -moz-user-select: none;
+  -khtml-user-drag: element;
+  cursor: move;
+  line-height: 1.5em; }
+
+.control .device, .control .device_null {
+  width: 40%;
+  margin: 10px 10px;
+  float: left; }
+
+.device_null {
+  border: 2px inset white;
+  float: right; }
+
+.dragstart, .noDrag {
+  opacity: 0.5;
+  border: 2px inset white;
+  cursor: auto; }
+
+.dragOn {
+  box-shadow: 0px 0px 5px 5px #bbbbbb; }
+
+.endNodeStart {
+  margin-top: 5%; }
+
+.endNode {
+  margin-left: 5%;
+  font-weight: bold; }
+
+.sensor {
+  margin-left: 10%; }
+
+.newData {
+  color: red; }
+
+.oldData {
+  color: black; }
+
+.button {
+  height: 5%;
+  width: 30%;
+  margin-right: 2%;
+  float: right;
+  box-shadow: 0px 0px 5px 5px #888888; }
+
+.buttonUnClicked {
+  border: 2px outset white; }
+
+.buttonClicked {
+  border: 2px inset white; }

@@ -1,0 +1,208 @@
+/*
+*    DEBUG Code
+*/
+
+
+var env_def = { 
+   browser : 0,
+   console : 1
+};
+
+var DEBUG = true;
+var env = env_def.browser;
+
+var PRINT = function (fct, msg) {
+   if (DEBUG) {
+      var error = "Error in ." + fct.name + ". : " + msg;
+
+      if (env == env_def.browser) {
+         alert(error);
+      }
+      else {
+         console.log(error);
+      }
+   }
+};
+
+/*
+*    EVENT Code
+*/
+
+$.extend({
+    compare: function (arrayA, arrayB) {
+        if (arrayA.length != arrayB.length) { return false; }
+        var a = $.extend(true, [], arrayA);
+        var b = $.extend(true, [], arrayB);
+        a.sort(); 
+        b.sort();
+        for (var i = 0, l = a.length; i < l; i++) {
+            if (a[i] !== b[i]) { 
+                return false;
+            }
+        }
+        return true;
+    }
+});
+
+
+// Find if a element of arrayA is in arrayB
+$.extend({
+    diff: function (arrayA, arrayB) {
+        var a = $.extend(true, [], arrayA);
+        var b = $.extend(true, [], arrayB);
+        a.sort(); 
+        b.sort();
+
+        lst = [];
+
+        for (var i = 0, l = a.length; i < l; i++) {
+            if (b.indexOf(a[i]) == -1) { 
+                lst.push(a[i]);
+            }
+        }
+        return lst;
+    }
+});
+
+var event = function (msg) {
+
+   var obj = $("#alertBox");
+   var infoListDevice = $("#textLstDevices");
+   var newDevice = msg.EndNodes;
+   var info = JSON.parse($("#hiddenTX").val());
+   var oldDevice = info.EndNodes;
+
+   if (!$.compare(newDevice,oldDevice)) {
+      var lstNewDevice = $.diff(newDevice,oldDevice);
+      var lstDisconnectDevice = $.diff(oldDevice,newDevice);
+      var message = "";
+
+      if (lstNewDevice.length + lstDisconnectDevice.length > 4) {
+         message = "There a lot of activities. You can check the device panel for more information.";
+      }
+      else {
+         for ( i = 0 ; i < lstNewDevice.length ; i++ ) {
+            message += lstNewDevice[i] + " is now connected." + "<br/>";
+         }
+
+         for ( i = 0 ; i < lstDisconnectDevice.length ; i++ ) {
+            message += lstDisconnectDevice[i] + " is now disconnected." + "<br/>";
+         }
+      }
+
+      iEvent.show(message);
+      iEvent.updateListDevice(lstNewDevice, lstDisconnectDevice);
+      iEvent.saveMsg(msg);
+   }
+};
+
+var iEvent = {
+   obj:null,
+   updateListDevice : function (lstNewDevice, lstDisconnectDevice) {
+         for ( i = 0 ; i < lstNewDevice.length ; i++ ) {
+            this.addDevice(lstNewDevice[i]);
+         }
+
+         for ( i = 0 ; i < lstDisconnectDevice.length ; i++ ) {
+            this.removeDevice("device_"+lstDisconnectDevice[i]);
+         }
+   },
+   saveMsg : function (msg) {
+      //$("#hiddenTX").val(JSON.stringify(msg));
+   },
+   show : function (msg) {
+
+      var obj = $("#alertBox");
+      var text = $("#textAlertBox");
+
+      text.html(msg);
+
+      this.displayElement(obj, 3000);
+   },
+   addDevice : function (device) {
+      $("#devices").append("<div id='device_" + device + "' class='device' draggable='true'>ID: " + device + "</div");
+      addDraggableEvent($("#device_" + device));
+   },
+   removeDevice : function (id) {
+      $("#"+id).remove();
+   },
+   selectDevice : function (id) {
+     $("#listActiveDevice").append("<div id='device_" + id + "' class='device' draggable='true'>" + $("#"+id).text() + "</div");
+   },
+   displayElement : function (obj, delay) {
+      _obj = obj;
+
+      doFade = function (obj, opa) {
+         obj.css("opacity", opa);
+      };
+      
+      if (typeof obj != 'undefined' && obj != null) {
+         doFade(obj,1);
+         setTimeout('doFade(_obj,0)', delay);
+      }
+      else {
+         PRINT(this,"No object with that name.");
+      }
+   }
+}
+
+/*
+*   Draggable
+*/
+var addEvents = function () {
+
+   var draggable = function () {
+      var links = $("[draggable=true]");
+      for (var i = 0; i < links.length; i++) {
+         addDraggableEvent(links[i]);
+      }
+   };
+
+   draggable();
+
+   var bin = $('#control');
+
+   addEvent(bin, 'dragover', function (e) {
+      if (e.preventDefault) e.preventDefault(); // allows us to drop
+      e.dataTransfer.dropEffect = 'copy';
+      $("#"+e.currentTarget.id).addClass("dragOn");
+      return false;
+   });
+
+   addEvent(bin, 'dragleave', function (e) {
+      $("#"+e.currentTarget.id).removeClass("dragOn");
+   });
+
+   addEvent(bin, 'mouseover', function (e) {
+
+      return false;
+   });
+
+   addEvent(bin, 'drop', function (e) {
+      if (e.stopPropagation) e.stopPropagation();
+      if (e.preventDefault) e.preventDefault(); // allows us to drop
+      
+      var device = e.dataTransfer.getData('device');
+
+      $("#"+e.currentTarget.id).removeClass("dragOn");
+
+      iEvent.selectDevice(device);
+      iEvent.removeDevice(device);
+
+      draggable();
+
+      return false;
+   });
+};
+
+var addDraggableEvent = function (el) {
+   addEvent(el, 'dragstart', function (e) {
+      e.dataTransfer.effectAllowed = 'copy';
+      e.dataTransfer.setData('device', this.id);
+      $(this).addClass("dragstart");
+   });
+
+   addEvent(el, 'dragend', function (e) {
+      $(this).removeClass("dragstart");
+   });
+};

@@ -1,0 +1,94 @@
+<html>
+<head>
+   <title>Interface</title>
+   <script type="text/javascript" src="jquery-1.7.1.min.js"></script>
+   <script type="text/javascript" src="event.js"></script>
+   <script type="text/javascript" src="h5utils.js"></script>
+   <script type="text/javascript" src="socket.io/socket.io.js"></script>
+   <link href="interface.css" media="all" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+<div id="dragZone">
+   <h1>It works!</h1>
+
+   <p id="Result"></p>
+   <p>The web server software is running but no content has been added, yet.</p>
+
+   <div id="lstCapteurs" class="lstCapteurs">
+      <div id="lstCapteurs_header" class="panelHeader">
+         <span class="panelHeaderContainer">Sensor</span>
+      </div>
+      <div id="lstCapteurs_body" class="lstCapteurs_body">
+
+      </div>
+
+      <div id="" class="">
+         <div button="" class="button buttonUnClicked" onMouseDown="iEvent.clickButton(event,this,Action.logInfo)" onMouseUp="iEvent.clickButton(event,this,Action.logInfo)">
+         </div>
+      </div>
+   </div>
+
+   <div id="lstDevices" class="lstDevices">
+      <div id="lstDevices_header" class="panelHeader">
+         <span class="panelHeaderContainer">EndNodes</span>
+      </div>
+      <div id="textLstDevices" class="textLstDevices">
+      
+      </div>
+      <div id="devices">
+         <div id="device_1" draggable='true' class="device">ID: 1</div>
+      </div>
+   </div>
+
+   <div id="control" class="control">
+      <div id="control_header" class="panelHeader">
+         <span class="panelHeaderContainer">Configuration</span>
+      </div>
+      <div id="listActiveDevice">
+         <div id="device_null" class="device_null"></div>
+      </div>
+   </div>
+
+   <div id="alertBox" class="alertBox">
+      <div id="alertBox_header" class="panelHeader alertBoxPanelHeader">
+         <span class="panelHeaderContainer alertBoxPanelHeaderContainer">Information</span>
+      </div>
+      <div id="textAlertBox" class="textAlertBox">
+      	
+      </div>
+
+   </div>
+
+   <script type="text/javascript">
+/*   $(document).ready(function() {
+       $.ajax({
+         url: "http://www.laptop.lan:8080/getInformation",
+         //url: "http://192.168.0.101:8080/getInformation",
+         //url: "http://localhost:8080/getInformation",
+         dataType: "json",
+         success: function(msg) {
+           $("#Result").text(JSON.stringify(msg));
+           event(msg);
+         }
+       });
+       dragEvent();
+   });
+
+*/
+   $(document).ready(function() {
+      event(memory.getDataNull('msg'));
+      if(!websocket.init(event)) 
+         console.error("No connection");
+
+      dragEvent();
+
+      // To delete
+      $("#Result").text(JSON.stringify(memory.getDataNull('msg')));
+   });
+   </script>
+
+   <input id="msg" type="hidden" value='{"Sensor":[{"name":"capteur1","ID":5,"value":0},{"name":"capteur2","ID":5,"value":0}],"EndNodes":[6,9]}'/>
+</div>
+</body>
+</html>
