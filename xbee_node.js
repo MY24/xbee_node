@@ -1,8 +1,7 @@
 var express = require("express"),
     io = require("socket.io");
 
-var app = express.createServer()
-  , io = io.listen(app);
+var app = express.createServer();
 
 console.log("Created");
 
@@ -16,6 +15,8 @@ var port = process.env.PORT || 8000;
 console.log("port:" + port);
 
 app.listen(port);
+
+var io = io.listen(app);
 
 app.setAppFile = (function () {
    app.get('/', function (req, res) {
