@@ -9,7 +9,7 @@ var app = express.createServer()
 //http://www.laptop.lan:8080/websocket_test.html#
 //https://github.com/LearnBoost/socket.io-spec
 
-var port = process.env.PORT;
+var port = process.env.PORT || 8000;
 
 app.listen(port);
 
