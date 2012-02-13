@@ -16,7 +16,7 @@ console.log("port:" + port);
 
 app.listen(port);
 
-var io = io.listen(app);
+//var io = io.listen(app);
 
 app.setAppFile = (function () {
    app.get('/', function (req, res) {
@@ -41,7 +41,7 @@ app.setAppFile = (function () {
       res.sendfile(__dirname + '/WWW/jquery-1.7.1.min.js');
    });
 })();
-
+/*
 io.sockets.on('connection', function (socket) {
    socket.on('msg', function (msg) {
       if (msg)
@@ -58,4 +58,4 @@ io.set('transports', [                     // enable all transports (optional if
   , 'htmlfile'
   , 'xhr-polling'
   , 'jsonp-polling'
-]);
+]);*/
