@@ -9,7 +9,7 @@ var app = express.createServer()
 //http://www.laptop.lan:8080/websocket_test.html#
 //https://github.com/LearnBoost/socket.io-spec
 
-app.listen(15666);
+app.listen(11177);
 
 app.setAppFile = (function () {
    app.get('/', function (req, res) {
