@@ -4,12 +4,16 @@ var express = require("express"),
 var app = express.createServer()
   , io = io.listen(app);
 
+console.log("Created" + TT + ":" PORT);
+
 //http://www.laptop.lan:8000/
 //http://stackoverflow.com/questions/6692908/formatting-messages-to-send-to-socket-io-node-js-server-from-python-client
 //http://www.laptop.lan:8080/websocket_test.html#
 //https://github.com/LearnBoost/socket.io-spec
 
 var port = process.env.PORT || 8000;
+
+console.log("port:" port);
 
 app.listen(port);
 
