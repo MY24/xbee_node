@@ -20,12 +20,8 @@ border: 2px solid red;
 </style>
   </head>
   <body>
-<p id="warning">
-<strong>WARNING:</strong> run the Spam Test at your own risk, see below for more information.<br /><br />
-Spam Test: The spam test rapidly spends 1 million messages to the websocket-server at a near instant interval, as such, any browsers connected to the server at the time of a spam test may crash or freeze up. The websocket server should not crash, but this is not 100% guaranteed.<br/><br />
-The author does not take responsibility for any damage or data loss caused.</p>
-<div id="rockbar">
-<a href="#" id="send">Send Something</a> | <a href="#" id="spam">Run Spam Test</a> | <a href="#" id="close">Close Connection.</a> | <a href="#" id="open">Open Connection.</a>
+<div>
+
 </div>
 <div id="log"></div>
     <script type="text/javascript">
@@ -66,7 +62,7 @@ var connect = function() {
   if (window["MozWebSocket"]) {
     recvd = 0;
     //host = (document.location.host != "" ? document.location.host : "localhost:8000");
-    host = "www.laptop.lan:8000";
+    host = "falling-warrior-6803.herokuapp.com";
     conn = new MozWebSocket("ws://"+host+"/socket.io/1/websocket/" + clientID); ///socket.io/io.protocolVersion/websocket?t=1329047643888");
     conn.onmessage = function(evt) {
       log(evt.data);
@@ -140,7 +136,7 @@ document.getElementById("open").addEventListener("click", function(e) {
 
    $(document).ready(function() {
        $.ajax({
-         url: "http://www.laptop.lan:8000/socket.io/1/?t=1238141910",
+         url: "http://falling-warrior-6803.herokuapp.com/socket.io/1/?t=1238141910",
          success: function(msg) {
               msg_part = msg.split(":")
               clientID = msg_part[0];

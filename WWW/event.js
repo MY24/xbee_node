@@ -14,13 +14,15 @@ var htmlID = {
    lstCapteurs_body : "lstCapteurs_body",
    textLstDevices : "textLstDevices",
    JSONMsg : "msg",
+   sampleRate : "sampleRate",
 
    dragZone : "dragZone"
 }
 
 // Enum Action
 var Action = {
-   logInfo : 0
+   logInfo : 0,
+   setSampleRate : 1
 }
 
 // JQuery extention (getObj) : get a JQuery Object from the enum "htmlID"
@@ -235,7 +237,7 @@ var iEvent = {
       this.displayEvent(obj, 3000);
    },
    addDevice : function (device) {
-      $.getObj(htmlID.devices).append("<div id='device_" + device + "' class='device' draggable='true'>ID: " + device + "</div");
+      $.getObj(htmlID.devices).append("<div id='device_" + device + "' class='device' draggable='true'>Address: " + device + "</div");
       addDraggableEvent($("#device_" + device));
    },
    removeDevice : function (id) {
@@ -284,6 +286,11 @@ var iEvent = {
          case Action.logInfo :
            console.warn("activity","TODO : Action.logInfo");
            break;
+         case Action.setSampleRate :
+		   var value = $.getObj(htmlID.sampleRate).children("div").children().val();
+		   websocket.send(value);
+           console.info("Set sample rate : %d", value);
+           break;
          default:
             console.error("activity","No action");
       };
@@ -315,7 +322,7 @@ var iEvent = {
          _class = "oldData";
       }
 
-      return '<div class="endNode">ID : <span class=" ' + _class + '">' + id + '</span></div>';
+      return '<div class="endNode">Address : <span class=" ' + _class + '">' + id + '</span></div>';
    }
 };
 
@@ -373,12 +380,7 @@ var dragEvent = function () {
          enableRemove = true;
          return false;
       });
-/*
-   addEvent(centerPanel, 'mouseover', function (e) {
 
-      return false;
-   });
-*/
       addEvent(centerPanel, 'drop', function (e) {
          if (e.stopPropagation) e.stopPropagation();
          if (e.preventDefault) e.preventDefault(); // allows us to drop
@@ -394,7 +396,7 @@ var dragEvent = function () {
    centerPanelEvents();
 
    var dragZoneEvents = function () {
-      var dragZone = $.getObj(htmlID.dragZone); //$('#control');
+      var dragZone = $.getObj(htmlID.dragZone);
 
      addEvent(dragZone, 'dragover', function (e) {
          if (e.preventDefault) e.preventDefault(); // allows us to drop
@@ -414,10 +416,6 @@ var dragEvent = function () {
    };
 
    dragZoneEvents();
-};
-
-var dragEvents = {
-   
 };
 
 var addDraggableEvent = function (el) {
@@ -506,5 +504,8 @@ var websocket = {
       this.socket.on('msg', function (msg) {
          websocket.message(msg);
       });
+   },
+   send : function (rate) {
+      this.socket.emit('SampleRate',rate);
    }
 };

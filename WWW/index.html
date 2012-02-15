@@ -9,23 +9,13 @@
 </head>
 
 <body>
-<div id="dragZone">
-   <h1>It works!</h1>
-
-   <p id="Result"></p>
-   <p>The web server software is running but no content has been added, yet.</p>
+<div id="dragZone" class="dragZone">
 
    <div id="lstCapteurs" class="lstCapteurs">
       <div id="lstCapteurs_header" class="panelHeader">
          <span class="panelHeaderContainer">Sensor</span>
       </div>
       <div id="lstCapteurs_body" class="lstCapteurs_body">
-
-      </div>
-
-      <div id="" class="">
-         <div button="" class="button buttonUnClicked" onMouseDown="iEvent.clickButton(event,this,Action.logInfo)" onMouseUp="iEvent.clickButton(event,this,Action.logInfo)">
-         </div>
       </div>
    </div>
 
@@ -34,10 +24,9 @@
          <span class="panelHeaderContainer">EndNodes</span>
       </div>
       <div id="textLstDevices" class="textLstDevices">
-      
       </div>
       <div id="devices">
-         <div id="device_1" draggable='true' class="device">ID: 1</div>
+         <div id="device_1" draggable='true' class="device">Address: 125249825</div>
       </div>
    </div>
 
@@ -45,8 +34,22 @@
       <div id="control_header" class="panelHeader">
          <span class="panelHeaderContainer">Configuration</span>
       </div>
+      <div class="title">
+         Rate Sample Settings :
+      </div>
+      <div id="sampleRate" class="sampleRate">
+      <div id="button" class="button buttonUnClicked" onMouseDown="iEvent.clickButton(event,this,Action.setSampleRate)" onMouseUp="iEvent.clickButton(event,this,Action.setSampleRate)">
+         Set Sample
+      </div>
+      <div id="rateValue" class="rateValue">
+       <input type="text" name="rate" value=""/>
+      </div>
+      <br/><br/><br/>
+      <div class="title">
+         Other Settings Apply to :
+      </div>
+      </div>	  
       <div id="listActiveDevice">
-         <div id="device_null" class="device_null"></div>
       </div>
    </div>
 
@@ -57,35 +60,16 @@
       <div id="textAlertBox" class="textAlertBox">
       	
       </div>
-
    </div>
 
    <script type="text/javascript">
-/*   $(document).ready(function() {
-       $.ajax({
-         url: "http://www.laptop.lan:8080/getInformation",
-         //url: "http://192.168.0.101:8080/getInformation",
-         //url: "http://localhost:8080/getInformation",
-         dataType: "json",
-         success: function(msg) {
-           $("#Result").text(JSON.stringify(msg));
-           event(msg);
-         }
-       });
-       dragEvent();
-   });
+	   $(document).ready(function() {
+		  event(memory.getDataNull('msg'));
+		  if(!websocket.init(event)) 
+			 console.error("No connection");
 
-*/
-   $(document).ready(function() {
-      event(memory.getDataNull('msg'));
-      if(!websocket.init(event)) 
-         console.error("No connection");
-
-      dragEvent();
-
-      // To delete
-      $("#Result").text(JSON.stringify(memory.getDataNull('msg')));
-   });
+		  dragEvent();
+	   });
    </script>
 
    <input id="msg" type="hidden" value='{"Sensor":[{"name":"capteur1","ID":5,"value":0},{"name":"capteur2","ID":5,"value":0}],"EndNodes":[6,9]}'/>

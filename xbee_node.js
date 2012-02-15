@@ -1,28 +1,23 @@
+/*/ Initialize servers  /*/
 var express = require("express"),
     io = require("socket.io");
 
-var app = express.createServer();
-var io = io.listen(app);
+/*/ Start Servers /*/
+var app = express.createServer(),
+    io = io.listen(app);
 
-console.log("Created");
+app.listen(process.env.PORT || 8000);
 
-//http://www.laptop.lan:8000/
-//http://stackoverflow.com/questions/6692908/formatting-messages-to-send-to-socket-io-node-js-server-from-python-client
-//http://www.laptop.lan:8080/websocket_test.html#
-//https://github.com/LearnBoost/socket.io-spec
-
-var port = process.env.PORT || 8000;
-
-console.log("port:" + port);
-
-app.listen(port);
-
+/*/ Set server of files /*/
 app.setAppFile = (function () {
    app.get('/', function (req, res) {
-      res.sendfile(__dirname + '/WWW/jade.html');
+     res.sendfile(__dirname + '/WWW/index.html');
    });
    app.get('/index.html', function (req, res) {
      res.sendfile(__dirname + '/WWW/index.html');
+   });
+   app.get('/jade.html', function (req, res) {
+      res.sendfile(__dirname + '/WWW/jade.html');
    });
    app.get('/h5utils.js', function (req, res) {
       res.sendfile(__dirname + '/WWW/h5utils.js');
@@ -41,18 +36,26 @@ app.setAppFile = (function () {
    });
 })();
 
+/*/ Make server respond to queries /*/
 io.sockets.on('connection', function (socket) {
    socket.on('msg', function (msg) {
-      if (msg)
-         socket.broadcast.emit('msg', JSON.parse(msg));
+      if (msg) {
+         try {
+            socket.broadcast.emit('msg', JSON.parse(msg));
+         }
+         catch (err) {
+            console.error(err);
+         }
+      }
    });
    socket.on('command', function (command) {
-      socket.broadcast.emit('msg', command);
+      socket.broadcast.emit('command', command);
+   });
+   socket.on('SampleRate', function (sample) {
+      socket.broadcast.emit('SampleRate', sample);
    });
 });
 
-io.set('transports', [                     // enable all transports (optional if you want flashsocket)
-   'xhr-polling'
-]);
-
+/*/ Settings of Socket.io /*/
+io.set('transports', ['xhr-polling']);
 io.set("polling duration", 10);
